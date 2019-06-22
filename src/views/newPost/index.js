@@ -1,7 +1,14 @@
 import React from 'react';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import {
+  InputGroup,
+  FormControl,
+  Button,
+  Container,
+  Row,
+  Col
+} from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { stateToHTML } from 'draft-js-export-html';
 
@@ -34,7 +41,6 @@ class NewPost extends React.Component {
     onEditorStateChange = (editorState) => {
       const raw = editorState.getCurrentContent();
       const postInHtml = stateToHTML(raw); 
-      console.log(postInHtml);
       this.setState({
         editorState,
         postInHtml
@@ -61,11 +67,17 @@ class NewPost extends React.Component {
         selectedBlogId,
         postInHtml
       } = this.state;
+      this.setState({ loading: true });
+      console.log(selectedBlogId);
       FireStore
       .collection('blogs')
       .doc(selectedBlogId)
       .collection('posts')
-      .add({ title, resume, htmlBody: postInHtml });
+      .add({ title, resume, htmlBody: postInHtml })
+      .then((docRef) => {
+        this.setState({ loading: false });
+      })
+      .catch(error => console.log(error));
     }
 
     render() {
@@ -85,43 +97,37 @@ class NewPost extends React.Component {
         <Container>
           <Row>
             <Col sm={8}>
-              <Form onSubmit={this.onSubmit}>
-                <Form.Group>
-                  <Form.Label>Blog</Form.Label>
-                  <Form.Control as="select" onChange={this.onBlogChange}>
-                    {renderBlogOptions}
-                  </Form.Control>
-                </Form.Group>
+              <InputGroup className="mb-4">
+                <FormControl as="select" onChange={this.onBlogChange}>
+                  <option>Selecione o blog</option>
+                  {renderBlogOptions}
+                </FormControl>
+              </InputGroup>
 
-                <Form.Group>
-                  <Form.Label>Título do Artigo</Form.Label>
-                  <Form.Control type="text" value={title} onChange={this.onTitleChange} />
-                </Form.Group>
+              <InputGroup className="mb-4">
+                <FormControl placeholder='Título do Artigo' type="text" value={title} onChange={this.onTitleChange} />
+              </InputGroup>
 
-                <Form.Group>
-                  <Form.Label>Resumo do artigo</Form.Label>
-                  <Form.Control as="textarea" value={resume} onChange={this.onResumeChange} />
-                </Form.Group>
+              <InputGroup className="mb-4">
+                <FormControl placeholder={'Resumo do artigo'} as="textarea" value={resume} onChange={this.onResumeChange} />
+              </InputGroup>
 
-                <Form.Group>
-                  <Form.Label>Conteúdo</Form.Label> 
-                  <Editor
-                    editorState={editorState}
-                    onEditorStateChange={this.onEditorStateChange}
-                    placeholder={'Escreve o conteúdo do artigo aqui'}
-                    wrapperClassName="demo-wrapper"
-                    className="editor"
-                    editorClassName="demo-editor"
-                    />
-                </Form.Group>
-
-                <Button onClick={this.onSubmit} variant="primary" syze="lg" block>
-                  Enviar
-                </Button>
-              </Form>
+              <Editor
+                editorState={editorState}
+                onEditorStateChange={this.onEditorStateChange}
+                placeholder={'Escreve o conteúdo do artigo aqui'}
+                wrapperClassName="demo-wrapper"
+                className="editor mb-4"
+                editorClassName="demo-editor"
+                />
+              
+              <Button key="submitbtn" onClick={this.onSubmit} variant="primary" syze="lg" block>
+                Enviar
+              </Button>
             </Col>
             <Col sm={4}>
               <iframe
+                title={'Preview'}
                 srcDoc={postInHtml}
                 width={'100%'}
                 height={'100%'} />
