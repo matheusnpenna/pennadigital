@@ -7,7 +7,8 @@ import {
   Button,
   Container,
   Row,
-  Col
+  Col,
+  Spinner
 } from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { stateToHTML } from 'draft-js-export-html';
@@ -25,7 +26,8 @@ class NewPost extends React.Component {
         resume: '',
         editorState: EditorState.createEmpty(),
         blogs: [],
-        postInHtml: ''
+        postInHtml: '',
+        loading: false
       };
 
       FireStore
@@ -67,13 +69,18 @@ class NewPost extends React.Component {
         selectedBlogId,
         postInHtml
       } = this.state;
+      
+      if (selectedBlogId.length === 0 || title.length === 0 || resume.length === 0 || postInHtml.length === 0) {
+        return;
+      } 
+
       this.setState({ loading: true });
-      console.log(selectedBlogId);
+      
       FireStore
       .collection('blogs')
       .doc(selectedBlogId)
       .collection('posts')
-      .add({ title, resume, htmlBody: postInHtml })
+      .add({ title, resume, htmlBody: postInHtml, date: new Date().toString() })
       .then((docRef) => {
         this.setState({ loading: false });
       })
@@ -86,7 +93,8 @@ class NewPost extends React.Component {
         resume,
         blogs, 
         editorState,
-        postInHtml
+        postInHtml,
+        loading
       } = this.state;
 
       const renderBlogOptions = blogs.map(
@@ -121,8 +129,25 @@ class NewPost extends React.Component {
                 editorClassName="demo-editor"
                 />
               
-              <Button key="submitbtn" onClick={this.onSubmit} variant="primary" syze="lg" block>
-                Enviar
+              <Button
+                key="submitbtn"
+                onClick={this.onSubmit}
+                variant="primary"
+                syze="lg"
+                block
+                disabled={loading && 'disabled'}>
+                {
+                  loading ? 
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  :
+                  'Enviar'
+                }
               </Button>
             </Col>
             <Col sm={4}>
