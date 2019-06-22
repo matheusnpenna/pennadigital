@@ -1,11 +1,10 @@
 import React from 'react';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+import { Form, Button, Container, Row } from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-
-import logo from '../../logo.svg';
-import './styles.css';
+// import './styles.css';
 
 class NewPost extends React.Component {
     constructor(props) {
@@ -27,7 +26,13 @@ class NewPost extends React.Component {
       this.setState({ title });
     }
 
-    onSubmit = () => {
+    onBlogChange = (blogName) => {
+      this.setState({ blogName });
+    }
+
+    onSubmit = (event) => {
+      // event.target.value
+      // event.preventDefault()
 
     }
 
@@ -37,23 +42,43 @@ class NewPost extends React.Component {
         editorState
       } = this.state;
       return (
-        <div className="container">
-          <form onSubmit={this.onSubmit}>
-            <select value={title} onChange={this.onTitleChange}>
-              <option value="A">Apple</option>
-              <option value="B">Banana</option>
-              <option value="C">Cranberry</option>
-            </select>
-            <input value={title} onChange={this.onTitleChange} />
-            <Editor
-              editorState={editorState}
-              wrapperClassName="demo-wrapper"
-              editorClassName="demo-editor"
-              onEditorStateChange={this.onEditorStateChange}
-              />
-            <input type="submit" value="Enviar" />
-          </form>
-        </div> 
+        <Container>
+          <Form onSubmit={this.onSubmit}>
+            <Form.Group>
+              <Form.Label>Blog</Form.Label>
+              <Form.Control as="select" onChange={this.onBlogChange}>
+                <option value="A">Apple</option>
+                <option value="B">Banana</option>
+                <option value="C">Cranberry</option>
+              </Form.Control>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Título do Artigo</Form.Label>
+              <Form.Control type="text" value={title} onChange={this.onTitleChange} />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Resumo do artigo</Form.Label>
+              <Form.Control as="textarea" value={title} onChange={this.onTitleChange} />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Conteúdo</Form.Label> 
+              <Editor
+                editorState={editorState}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                className="editor"
+                onEditorStateChange={this.onEditorStateChange}
+                />
+            </Form.Group>
+
+            <Button variant="primary" type="submit">
+              Enviar
+            </Button>
+          </Form>
+        </Container> 
       );
     }
 }
