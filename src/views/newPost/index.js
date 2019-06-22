@@ -115,14 +115,16 @@ class NewPost extends React.Component {
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button onClick={this.onSubmit} variant="primary" syze="lg" block>
                   Enviar
                 </Button>
               </Form>
             </Col>
             <Col sm={4}>
-              <iframe srcDoc={postInHtml} width={'100%'} height={'100%'}>
-              </iframe>
+              <iframe
+                srcDoc={postInHtml}
+                width={'100%'}
+                height={'100%'} />
             </Col>
           </Row>
         </Container> 
