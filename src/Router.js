@@ -6,7 +6,7 @@ function AppRouter() {
   return (
     <Router>
       <div>
-        <div class="sidebar">
+        <div className="sidebar">
           <ul>
             <li>
               <Link to="/">{routes.home.name}</Link>
