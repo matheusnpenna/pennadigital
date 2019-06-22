@@ -17,7 +17,7 @@ import { FireStore } from '../../config';
 
 // import './styles.css';
 
-class NewPost extends React.Component {
+class NewPostScreen extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -163,4 +163,4 @@ class NewPost extends React.Component {
     }
 }
 
-export default NewPost;
+export default NewPostScreen;

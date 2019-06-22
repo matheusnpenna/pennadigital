@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../logo.svg';
 import '../../App.css';
 
-class Login extends React.Component {
+class LoginScreen extends React.Component {
     render() {
       return (
         <div className="App">
@@ -17,4 +17,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default LoginScreen;

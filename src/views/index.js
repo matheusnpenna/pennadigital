@@ -1,9 +1,9 @@
-import Home from './home';
-import Login from './login';
-import NewPost from './newPost';
+import HomeScreen from './home';
+import LoginScreen from './login';
+import NewPostScreen from './newPost';
 
 export { 
-    Home,
-    Login,
-    NewPost
+    HomeScreen,
+    LoginScreen,
+    NewPostScreen
 };
