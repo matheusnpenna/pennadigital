@@ -1,13 +1,15 @@
 import { 
-    firebaseDB,
-    firebaseStorage,
-    firebaseImpl
+    RealtimeDatabase,
+    Storage,
+    FireStore,
+    Auth
 } from './firebase';
 import { routes } from './routes';
 
 export {
-    firebaseDB,
-    firebaseStorage,
-    firebaseImpl,
+    RealtimeDatabase,
+    Storage,
+    FireStore,
+    Auth,
     routes
 };

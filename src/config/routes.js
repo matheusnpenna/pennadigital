@@ -2,7 +2,7 @@ import {
     Home,
     Login,
     NewPost
-} from '../components';
+} from '../views';
 
 export const routes = {
     login: { name: 'Login', path:'/login', component: Login },
