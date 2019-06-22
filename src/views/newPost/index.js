@@ -1,8 +1,10 @@
 import React from 'react';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { Form, Button, Container, Row } from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+import { FireStore } from '../../config';
 
 // import './styles.css';
 
@@ -11,12 +13,25 @@ class NewPost extends React.Component {
       super(props);
       this.state = {
         title: '',
-        editorState: EditorState.createEmpty(), // ContentState JSON
+        selectedBlogId: '',
+        resume: '',
+        editorState: EditorState.createEmpty(),
+        blogs: []
       };
+
+      FireStore
+          .collection("blogs")
+          .get()
+          .then(querySnapShot => {
+            const blogs = [];
+            querySnapShot.forEach((doc) => blogs.push({ id: doc.id, name: doc.data().name }));
+            this.setState({ blogs })
+          })
     }
 
     onEditorStateChange = (editorState) => {
-      console.log(editorState.getCurrentContent());
+      const raw = editorState.getCurrentContent();
+      console.log(convertToRaw(raw));
       this.setState({
         editorState,
       });
@@ -26,30 +41,47 @@ class NewPost extends React.Component {
       this.setState({ title });
     }
 
-    onBlogChange = (blogName) => {
-      this.setState({ blogName });
+    onBlogChange = (selectedBlogId) => {
+      this.setState({ selectedBlogId });
+    }
+
+    onResumeChange = (resume) => {
+      this.setState({ resume });
     }
 
     onSubmit = (event) => {
-      // event.target.value
-      // event.preventDefault()
-
+      const {
+        title,
+        resume,
+        postBody,
+        selectedBlogId
+      } = this.state;
+      FireStore
+      .collection('blogs')
+      .doc(selectedBlogId)
+      .collection('posts')
+      .add({ title, resume, postBody });
     }
 
     render() {
       const {
-        title, 
+        title,
+        resume,
+        blogs, 
         editorState
       } = this.state;
+
+      const renderBlogOptions = blogs.map(
+        blog => <option key={blog.id} value={blog.id}>{blog.name}</option>
+      );
+
       return (
         <Container>
           <Form onSubmit={this.onSubmit}>
             <Form.Group>
               <Form.Label>Blog</Form.Label>
               <Form.Control as="select" onChange={this.onBlogChange}>
-                <option value="A">Apple</option>
-                <option value="B">Banana</option>
-                <option value="C">Cranberry</option>
+                {renderBlogOptions}
               </Form.Control>
             </Form.Group>
 
@@ -60,17 +92,18 @@ class NewPost extends React.Component {
 
             <Form.Group>
               <Form.Label>Resumo do artigo</Form.Label>
-              <Form.Control as="textarea" value={title} onChange={this.onTitleChange} />
+              <Form.Control as="textarea" value={resume} onChange={this.onResumeChange} />
             </Form.Group>
 
             <Form.Group>
               <Form.Label>Conteúdo</Form.Label> 
               <Editor
                 editorState={editorState}
-                wrapperClassName="demo-wrapper"
-                editorClassName="demo-editor"
-                className="editor"
                 onEditorStateChange={this.onEditorStateChange}
+                placeholder={'Escreve o conteúdo do artigo aqui'}
+                wrapperClassName="demo-wrapper"
+                className="editor"
+                editorClassName="demo-editor"
                 />
             </Form.Group>
 
