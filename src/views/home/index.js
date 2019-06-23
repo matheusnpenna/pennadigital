@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../../logo.svg';
-import '../../App.css';
+import './styles.css';
 
 class HomeScreen extends React.Component {
   constructor(props){
