@@ -2,6 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { routes } from './config';
 import { Auth } from './services';
+import {
+  HomeScreen,
+  LoginScreen,
+  NewPostScreen
+} from './views';
 
 class AppRouter extends React.Component {
   constructor(props) {
@@ -17,8 +22,11 @@ class AppRouter extends React.Component {
     });
   }
 
+  updateStackLogInOrOut = (isLogged) => this.setState({ isLogged });
+
   render() {
     const { isLogged } = this.state;
+
     return (
       <Router>
         { isLogged ?
@@ -34,11 +42,11 @@ class AppRouter extends React.Component {
                 </ul>
               </div>
             
-              <Route path={routes.home.path} exact component={routes.home.component} />
-              <Route path={routes.newPost.path} component={routes.newPost.component} />
+              <Route path={routes.home.path} exact render={(props) => <HomeScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
+              <Route path={routes.newPost.path} render={(props) => <NewPostScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
             </div>
          :
-            <Route path={routes.login.path} exact component={routes.login.component} />
+            <Route path={routes.login.path} exact render={(props) => <LoginScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
         }
       </Router>
     );

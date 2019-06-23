@@ -19,7 +19,7 @@ class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      error: {visible: false, message: ''},
+      error: { visible: false, message: '' },
       loading: false
     }
   }
@@ -38,7 +38,10 @@ class LoginScreen extends React.Component {
     Auth
     .signInWithEmailAndPassword(email, password)
     .then(() => {
-      this.setState({ loading: false }, () => this.props.history.push('/'))
+      this.setState({ loading: false }, () => {
+        this.props.history.push('/');
+        this.props.updateLoginStack(true);
+      })
     })
     .catch((error) => {
       this.setState({ 
