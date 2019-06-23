@@ -2,16 +2,14 @@ import {
     RealtimeDatabase,
     Storage,
     FireStore,
-    Auth
+    Auth,
+    initializeFirebase
 } from './firebase';
-import { routes } from './routes';
-import assets from './assets';
 
 export {
     RealtimeDatabase,
     Storage,
     FireStore,
     Auth,
-    routes,
-    assets
+    initializeFirebase
 };
