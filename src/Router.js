@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { routes } from './config';
 import { Auth } from './services';
+import { Sidebar, SideBarButton } from './components';
 import {
   HomeScreen,
   LoginScreen,
@@ -12,7 +13,8 @@ class AppRouter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogged: false 
+      isLogged: false,
+      sidebarVisualization: false
     };
     
     Auth.onAuthStateChanged(function(user) {
@@ -24,30 +26,29 @@ class AppRouter extends React.Component {
 
   updateStackLogInOrOut = (isLogged) => this.setState({ isLogged });
 
+  handleSideBar = () => {
+    this.setState({ sidebarVisualization: !this.state.sidebarVisualization });
+  }
+
   render() {
-    const { isLogged } = this.state;
+    const { isLogged, sidebarVisualization } = this.state;
 
     return (
       <Router>
-        { isLogged ?
-           <div className="container-logged">
-              <div className="sidebar">
-                <ul className="sidebar-options">
-                  <li>
-                    <Link to="/">{routes.home.name}</Link>
-                  </li>
-                  <li>
-                    <Link to="/newpost/">{routes.newPost.name}</Link>
-                  </li>
-                </ul>
-              </div>
-            
+        {/* { isLogged ? */}
+          <div className="container-logged">
+              { 
+                sidebarVisualization ? 
+                  <Sidebar routes={routes} visible={sidebarVisualization} onClosed={this.handleSideBar} />
+                    :
+                  <div className="align-items-flexstart"><SideBarButton action={this.handleSideBar} /></div>
+              }      
               <Route path={routes.home.path} exact render={(props) => <HomeScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
               <Route path={routes.newPost.path} render={(props) => <NewPostScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
-            </div>
-         :
+          </div>
+         {/* :
             <Route path={routes.login.path} exact render={(props) => <LoginScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
-        }
+        } */}
       </Router>
     );
   }
