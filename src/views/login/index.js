@@ -61,7 +61,7 @@ class LoginScreen extends React.Component {
             <InputGroup className="custom-input-group">
                <Col className="col-center">
                   <Image src={assets.icons.logo} rounded />
-                  <h1 className="text-center">Penna Digital</h1>
+                  <h1 className="text-center text-dark">Penna Digital</h1>
                </Col>
             </InputGroup>
             {error.visible &&
@@ -71,13 +71,13 @@ class LoginScreen extends React.Component {
                 </Alert>
               </InputGroup>
             }
-            <InputGroup className="custom-input-group">
+            <InputGroup className="custom-input-group input-width">
                 <FormControl className="custom-input" placeholder='E-mail. ex: username@provider.com' type="text" value={email} onChange={this.onEmailChange} />
             </InputGroup>
-            <InputGroup className="custom-input-group">
+            <InputGroup className="custom-input-group input-width">
                 <FormControl className="custom-input" placeholder='password' type="password" value={password} onChange={this.onPasswordChange} />
             </InputGroup>
-            <InputGroup className="custom-input-group">
+            <InputGroup className="custom-input-group input-width">
               <Button variant="primary" size="lg" block onClick={this.attemptLogin}>
               {
                   loading ? 
