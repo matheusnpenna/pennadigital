@@ -39,7 +39,12 @@ class AppRouter extends React.Component {
           <div className="container-logged">
               { 
                 sidebarVisualization ? 
-                  <Sidebar routes={routes} visible={sidebarVisualization} onClosed={this.handleSideBar} />
+                  <Sidebar 
+                    routes={routes}
+                    visible={sidebarVisualization}
+                    onClosed={this.handleSideBar}
+                    updateLoginStack={this.updateStackLogInOrOut}
+                  />
                     :
                   <div className="align-items-flexstart"><SideBarButton action={this.handleSideBar} /></div>
               }      

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ListGroup, Button } from 'react-bootstrap';
 import { SideBarButton } from '../../components';
 import './styles.css';
 
@@ -11,8 +12,17 @@ class Sidebar extends React.Component {
     };
   }
 
+  doLogout = () => {
+      this.props.updateLoginStack();
+  }
+
   render() {
-      const { routes, visible, onClosed } = this.props;
+      const {
+          routes,
+          visible,
+          onClosed,
+          updateLoginStack
+      } = this.props;
       const vizualization = visible ? 'sidebar-opened' : 'sidebar-closed';
 
     return (
@@ -20,14 +30,12 @@ class Sidebar extends React.Component {
             <div className="float-right">
                 <SideBarButton action={onClosed} />
             </div>
-            <ul className="sidebar-options">
-                <li>
-                    <Link to="/">{routes.home.name}</Link>
-                </li>
-                <li>
-                    <Link to="/newpost/">{routes.newPost.name}</Link>
-                </li>
-            </ul>
+
+            <ListGroup className="sidebar-options">
+                <ListGroup.Item><Link to="/">{routes.home.name}</Link></ListGroup.Item>
+                <ListGroup.Item><Link to="/newpost/">{routes.newPost.name}</Link></ListGroup.Item>
+                <ListGroup.Item><Button onClick={this.doLogout} variant="Link">Logout</Button></ListGroup.Item>
+            </ListGroup>
         </div>
     );
   }
