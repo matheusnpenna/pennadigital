@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { routes } from './config';
 import { Auth } from './services';
 import { Sidebar, SideBarButton } from './components';
@@ -35,7 +35,7 @@ class AppRouter extends React.Component {
 
     return (
       <Router>
-        {/* { isLogged ? */}
+        { isLogged ?
           <div className="container-logged">
               { 
                 sidebarVisualization ? 
@@ -50,10 +50,14 @@ class AppRouter extends React.Component {
               }      
               <Route path={routes.home.path} exact render={(props) => <HomeScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
               <Route path={routes.newPost.path} render={(props) => <NewPostScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
+              <Route render={() => <Redirect to="/"/>} />
           </div>
-         {/* :
-            <Route path={routes.login.path} exact render={(props) => <LoginScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
-        } */}
+          :
+            <div>
+              <Route path={routes.login.path} exact render={(props) => <LoginScreen { ...props } updateLoginStack={this.updateStackLogInOrOut} />} />
+              <Route render={() => <Redirect to="/login"/>} />
+            </div>
+        }
       </Router>
     );
   }
