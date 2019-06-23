@@ -13,7 +13,7 @@ import {
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { stateToHTML } from 'draft-js-export-html';
 
-import { FireStore } from '../../config';
+import { FireStore } from '../../services';
 
 // import './styles.css';
 
