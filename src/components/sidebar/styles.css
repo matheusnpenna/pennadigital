@@ -1,0 +1,15 @@
+.sidebar {
+    padding: 10px;
+    background: #f0f0f0;
+  }
+  .sidebar-opened {
+    min-width: 15vw;
+    display: block;
+  }
+  .sidebar-closed {
+    display: none;
+  }
+    .sidebar-options {
+      list-style-type: none;
+      padding: 0px
+    }
