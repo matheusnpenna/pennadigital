@@ -15,7 +15,7 @@ import { stateToHTML } from 'draft-js-export-html';
 
 import { FireStore } from '../../services';
 
-// import './styles.css';
+import './styles.css';
 
 class NewPostScreen extends React.Component {
     constructor(props) {
