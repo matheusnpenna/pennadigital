@@ -30,9 +30,9 @@ class AppRouter extends React.Component {
     return (
       <Router>
         { isLogged ?
-           <div>
+           <div className="container-logged">
               <div className="sidebar">
-                <ul>
+                <ul className="sidebar-options">
                   <li>
                     <Link to="/">{routes.home.name}</Link>
                   </li>
