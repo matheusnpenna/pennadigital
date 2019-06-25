@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ListGroup, Button } from 'react-bootstrap';
 import { SideBarButton } from '../../components';
+import { Auth } from '../../services';
 import './styles.css';
 
 class Sidebar extends React.Component {
@@ -13,15 +14,18 @@ class Sidebar extends React.Component {
   }
 
   doLogout = () => {
+    Auth.signOut().then(() => {
       this.props.updateLoginStack();
+    }).catch(function(error) {
+      console.log(`Deu ruim - ${error}`);
+    });
   }
 
   render() {
       const {
           routes,
           visible,
-          onClosed,
-          updateLoginStack
+          onClosed
       } = this.props;
       const vizualization = visible ? 'sidebar-opened' : 'sidebar-closed';
 
