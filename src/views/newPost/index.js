@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import {
   InputGroup,
@@ -65,7 +65,6 @@ class NewPostScreen extends React.Component {
       const {
         title,
         resume,
-        postBody,
         selectedBlogId,
         postInHtml
       } = this.state;
