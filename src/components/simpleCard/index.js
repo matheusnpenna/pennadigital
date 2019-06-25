@@ -16,8 +16,8 @@ class SimpleCard extends React.Component {
             <Card style={{ width: '18rem' }}>
                 {/* <Card.Img variant="top" src="holder.js/100px180" /> */}
                 <Card.Body>
-                    <Card.Title>{title}</Card.Title>
-                    <Card.Text>{text}</Card.Text>
+                    <Card.Title className="text-dark">{title}</Card.Title>
+                    <Card.Text className="text-dark">{text}</Card.Text>
                     <Button variant="primary">Ver Posts</Button>
                 </Card.Body>
             </Card>

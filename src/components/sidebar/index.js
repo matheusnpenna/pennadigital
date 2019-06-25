@@ -20,8 +20,7 @@ class Sidebar extends React.Component {
       const {
           routes,
           visible,
-          onClosed,
-          updateLoginStack
+          onClosed
       } = this.props;
       const vizualization = visible ? 'sidebar-opened' : 'sidebar-closed';
 
