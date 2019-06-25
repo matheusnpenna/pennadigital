@@ -17,7 +17,7 @@ class AppRouter extends React.Component {
       sidebarVisualization: false
     };
     
-    Auth.onAuthStateChanged(function(user) {
+    Auth.onAuthStateChanged((user) => {
       if (user) {
         this.setState({ isLogged: true });
       }
