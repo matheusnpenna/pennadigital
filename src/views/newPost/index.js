@@ -1,5 +1,6 @@
 import React from 'react';
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
 import {
   InputGroup,
@@ -11,7 +12,6 @@ import {
   Spinner
 } from 'react-bootstrap';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { stateToHTML } from 'draft-js-export-html';
 
 import { FireStore } from '../../services';
 
@@ -41,8 +41,12 @@ class NewPostScreen extends React.Component {
     }
 
     onEditorStateChange = (editorState) => {
-      const raw = editorState.getCurrentContent();
-      const postInHtml = stateToHTML(raw); 
+      const rawContentState = convertToRaw(editorState.getCurrentContent());
+      const postInHtml = draftToHtml(
+        rawContentState, 
+        { trigger: '#', separator: ' ' }, 
+        true
+      );
       this.setState({
         editorState,
         postInHtml
@@ -123,10 +127,21 @@ class NewPostScreen extends React.Component {
                 editorState={editorState}
                 onEditorStateChange={this.onEditorStateChange}
                 placeholder={'Escreve o conteúdo do artigo aqui'}
+                hashtag={{ separator: ' ', trigger: '#' }}
+                mention={{
+                  separator: ' ',
+                  trigger: '@',
+                  suggestions: [
+                    { text: 'Alex Vargas', value: 'alexvargas', url: 'https://instagram.com/alexvargaspro' },
+                    { text: 'Gerenciagram', value: 'gerenciagram', url: 'https://instagram.com/gerenciagrambrazil' },
+                    { text: 'Matheus Penna', value: 'matheuspenna', url: 'https://instagram.com/_matheuspenna' },
+                  ],
+                }}
                 wrapperClassName="demo-wrapper"
-                className="editor mb-4"
-                editorClassName="demo-editor"
-                />
+                className="editor mb-4 text-dark"
+                editorClassName="demo-editor text-dark"
+                toolbarClassName="demo-toolbar text-dark"
+              />
               
               <Button
                 key="submitbtn"
