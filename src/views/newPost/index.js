@@ -139,7 +139,8 @@ class NewPostScreen extends React.Component {
                 }}
                 wrapperClassName="demo-wrapper"
                 className="editor mb-4 text-dark"
-                editorClassName="demo-editor"
+                editorClassName="demo-editor text-dark"
+                toolbarClassName="demo-toolbar text-dark"
               />
               
               <Button
